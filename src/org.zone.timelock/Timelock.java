@@ -56,7 +56,7 @@ public class Timelock {
 			int scheme_numeric;
 			if (scheme.equals("secp256k1")) scheme_numeric=2;
 			else scheme_numeric=-1;
-			URL url = new URL("https://api.timelock.zone/tlcs/timelock/v1beta1/keypairs/round_and_scheme/"+Round+"/"+scheme_numeric); // creating a url object
+			URL url = new URL("https://api.timelock.zone/tlcs/timelock/v1beta1/keypairs/round_and_scheme/"+Round+"/"+scheme_numeric);
 			JSONParser parser = new JSONParser();
 	        jsonObj = (JSONObject) parser.parse(new InputStreamReader(url.openStream()));
 	        JSONArray jsonArray = (JSONArray) jsonObj.get("keypairs");
@@ -81,7 +81,7 @@ public class Timelock {
 		JSONObject finalobj;
 		try
 		{
-			URL url = new URL("https://api.timelock.zone/tlcs/timelock/v1beta1/keypairs/round_and_scheme/6361965/1"); // creating a url object
+			URL url = new URL("https://api.timelock.zone/tlcs/timelock/v1beta1/keypairs/round_and_scheme/"+Round+"/"+scheme_numeric); 
 			JSONParser parser = new JSONParser();
 	        jsonObj = (JSONObject) parser.parse(new InputStreamReader(url.openStream()));
 	        JSONArray jsonArray = (JSONArray) jsonObj.get("keypairs");
@@ -124,7 +124,7 @@ public class Timelock {
 		// TODO: retrieve pk for given round Round and scheme Scheme
 		// for the moment the pk is embedded
 		
-		
+/*		
         try{
         return stripPEM(getPublicKeyfromURL(Round,Scheme));
 
@@ -133,19 +133,19 @@ throw  new IOException();
 }
 		
         
-/*
+
 		String pkpem="-----BEGIN PUBLIC KEY-----\n" +
 				"MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEOErqrRCc3yBTCdQNfUQNM85JJHXOqYSH\n" +
 				"ibnuF1AtHTgc1iOxS/OlGyVctEF+wJMLrvc/nrd2GhRYcqtsJu9Gfw==\n" +
 				"-----END PUBLIC KEY-----\n";
-
+*/
 		
 		String pkpem="-----BEGIN PUBLIC KEY-----\n"
 				+ "MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAE4ayNtqjWab3VdTiCozknOoZOETJoFWRU\n"
 				+ "8BB8JdCsns3x5G9jsrkw4iJueGOwVQ+w1cNBqOlRWTVBkNK2Kjs9bQ==\n"
 				+ "-----END PUBLIC KEY-----\n";
 		return stripPEM(pkpem);
-*/
+
 	}
 	public static byte[] getSecretKeyFromRound(long Round, String Scheme) throws IOException {
 
@@ -153,7 +153,7 @@ throw  new IOException();
 		// for the moment the sk is embedded
 		/*
         try{
-        return stripPEM(getPublicKeyfromURL(Round,Scheme));
+        return stripPEM(getSecretKeyfromURL(Round,Scheme));
 
 } catch(IOException e) {
 throw  new IOException();
