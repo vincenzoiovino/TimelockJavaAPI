@@ -137,7 +137,7 @@ public class Timelock {
 	public static long DayToRound(Date date){ // convert a Date in the first round of the day. For instance, 01/01/2023, 02:34:01 will be converted in the round corresponding to 01/01/2023, 00:00:00
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
-		cal.set(Calendar.HOUR_OF_DAY,1);
+		cal.set(Calendar.HOUR_OF_DAY,0);
 		cal.set(Calendar.MINUTE,0);
 		cal.set(Calendar.SECOND,0);
 		Date newdate = cal.getTime();
