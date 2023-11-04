@@ -1,20 +1,12 @@
 package org.zone.timelock;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
-
-import javax.swing.JOptionPane;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -70,6 +62,7 @@ public class Timelock {
 			finalobj= (JSONObject) jsonArray.get(0);
 			String s=(String) finalobj.get("public_key_pem"); 
 			/*
+			// activate it for debug
 			System.out.println(jsonObj.toJSONString());
 			System.out.println(finalobj.toJSONString());
 			Path logfile=Paths.get("log.txt");
@@ -86,6 +79,7 @@ public class Timelock {
 		{
 			e.printStackTrace();
 			/*
+			// activate it for debug
 			File file = new File("log.txt");
 			PrintStream ps = new PrintStream(file);
 			e.printStackTrace(ps);
@@ -128,7 +122,7 @@ public class Timelock {
 
 
 
-	// private static long DRAND_GENESIS_TIME=1677685200;
+	// private static long DRAND_GENESIS_TIME=1677685200; genesis time for old chain
 	private static long DRAND_GENESIS_TIME=1692803367;
 
 	private static int DRAND_FREQUENCY=3;
@@ -140,7 +134,7 @@ public class Timelock {
 	}
 
 
-	public static long DateToRound(Date date){
+	public static long DayToRound(Date date){ // convert a Date in the first round of the day. For instance, 01/01/2023, 02:34:01 will be converted in the round corresponding to 01/01/2023, 00:00:00
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		cal.set(Calendar.HOUR_OF_DAY,1);
@@ -150,11 +144,23 @@ public class Timelock {
 		long t= ((newdate.getTime())/1000);
 		return (t-Timelock.DRAND_GENESIS_TIME)/Timelock.DRAND_FREQUENCY;
 	}
+
+	public static long DateToRound(Date date){ // convert a Date in the first round of the hour. For instance, 01/01/2023, 02:34:01 will be converted in the round corresponding to 01/01/2023, 02:00:00
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.MINUTE,0);
+		cal.set(Calendar.SECOND,0);
+		Date newdate = cal.getTime();
+		long t= ((newdate.getTime())/1000);
+		return (t-Timelock.DRAND_GENESIS_TIME)/Timelock.DRAND_FREQUENCY;
+	}
+
+	public static long UnixTimeToRound(long ut){ // convert a Unix time (time in milliseconds since the Unix Epoch)
+		long t= ut/1000;
+		return (t-Timelock.DRAND_GENESIS_TIME)/Timelock.DRAND_FREQUENCY;
+	}
+
 	public static byte[] getPublicKeyFromRound(long Round, String Scheme) throws IOException {
-		// TODO: retrieve pk for given round Round and scheme Scheme
-		// for the moment the pk is embedded
-
-
 		try{
 			return stripPEM(getPublicKeyfromURL(Round,Scheme));
 
@@ -164,7 +170,7 @@ public class Timelock {
 		}
 
 		/*        
-
+		Examples of how pkpem should look like:
 		String pkpem="-----BEGIN PUBLIC KEY-----\n" +
 				"MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEOErqrRCc3yBTCdQNfUQNM85JJHXOqYSH\n" +
 				"ibnuF1AtHTgc1iOxS/OlGyVctEF+wJMLrvc/nrd2GhRYcqtsJu9Gfw==\n" +
@@ -190,6 +196,7 @@ public class Timelock {
 			throw  new IOException();
 		}
 		/*
+		 Examples of how skpem should look like:
 		String skpem="-----BEGIN PRIVATE KEY-----\n" +
 				"MIGEAgEAMBAGByqGSM49AgEGBSuBBAAKBG0wawIBAQQg+uEhcA+bG/44RS/COUJa\n" +
 				"bjwVrYcMKN8zby1LowdBvnihRANCAAQ4SuqtEJzfIFMJ1A19RA0zzkkkdc6phIeJ\n" +
