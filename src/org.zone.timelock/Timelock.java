@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -13,6 +14,7 @@ import org.json.simple.parser.JSONParser;
 
 
 public class Timelock {
+	public final static String timezone="Europe/Rome";
 
 	public static void Setup()
 	{
@@ -135,7 +137,8 @@ public class Timelock {
 
 
 	public static long DayToRound(Date date){ // convert a Date in the first round of the day. For instance, 01/01/2023, 02:34:01 will be converted in the round corresponding to 01/01/2023, 00:00:00
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(Timelock.timezone));
+
 		cal.setTime(date);
 		cal.set(Calendar.HOUR_OF_DAY,0);
 		cal.set(Calendar.MINUTE,0);
@@ -146,7 +149,7 @@ public class Timelock {
 	}
 
 	public static long DateToRound(Date date){ // convert a Date in the first round of the hour. For instance, 01/01/2023, 02:34:01 will be converted in the round corresponding to 01/01/2023, 02:00:00
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(Timelock.timezone));
 		cal.setTime(date);
 		cal.set(Calendar.MINUTE,0);
 		cal.set(Calendar.SECOND,0);
