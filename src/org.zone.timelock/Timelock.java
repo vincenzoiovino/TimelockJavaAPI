@@ -15,7 +15,7 @@ import org.json.simple.parser.JSONParser;
 
 public class Timelock {
 	public final static String timezone="Europe/Rome";
-	public final static timelock_zone_utc = " UTC+01:00";
+	public final static String timelock_zone_utc = " UTC+01:00";
 
 	public static void Setup()
 	{
