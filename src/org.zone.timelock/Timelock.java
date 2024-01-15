@@ -58,7 +58,7 @@ public class Timelock {
 			int scheme_numeric;
 			if (scheme.equals("secp256k1")) scheme_numeric=2;
 			else scheme_numeric=-1;
-			URL url = new URL("https://demo.timelock.zone/tlcs/timelock/v1beta1/keypairs/round_and_scheme/"+Round+"/"+scheme_numeric);
+			URL url = new URL("https://api.timelock.zone/tlcs/timelock/v1beta1/keypairs/round_and_scheme/"+Round+"/"+scheme_numeric);
 			JSONParser parser = new JSONParser();
 			jsonObj = (JSONObject) parser.parse(new InputStreamReader(url.openStream()));
 			JSONArray jsonArray = (JSONArray) jsonObj.get("keypairs");
@@ -104,7 +104,7 @@ public class Timelock {
 			int scheme_numeric;
 			if (scheme.equals("secp256k1")) scheme_numeric=2;
 			else scheme_numeric=-1;
-			URL url = new URL("https://demo.timelock.zone/tlcs/timelock/v1beta1/keypairs/round_and_scheme/"+Round+"/"+scheme_numeric); 
+			URL url = new URL("https://api.timelock.zone/tlcs/timelock/v1beta1/keypairs/round_and_scheme/"+Round+"/"+scheme_numeric); 
 			JSONParser parser = new JSONParser();
 			jsonObj = (JSONObject) parser.parse(new InputStreamReader(url.openStream()));
 			JSONArray jsonArray = (JSONArray) jsonObj.get("keypairs");
